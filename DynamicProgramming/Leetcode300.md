@@ -49,7 +49,7 @@ public:
     }
 };
 ```
-#### 2 O(nlogn)
+#### 2 O(n^2)
 ```c++
 class Solution {
 public:
@@ -69,6 +69,55 @@ public:
                         break;
                     }
                 }
+            }
+        }        
+        return stack.size();        
+    }
+};
+```
+#### 3 O(nlogn)
+```c++
+class Solution {
+private:
+int binary_search(vector<int> nums, int target) {
+    int index = -1;
+    int begin = 0;
+    int end = nums.size()-1;
+    
+    while(index == -1) {
+        int mid = (end+begin)/2;
+        if(target==nums[mid]) {
+            index = mid;
+        } else if(target < nums[mid]) {
+            if(mid==0 || target>nums[mid-1]) {
+                index= mid;
+            }
+            end = mid-1;
+        } else if(target>nums[mid]) {
+            if(mid==nums.size()-1 || target < nums[mid+1]) {
+                index = mid+1;
+            }
+            begin = mid+1;
+        }
+    }
+    
+    return index;
+    
+};
+    
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int length = nums.size();
+        if(length == 0) return 0;
+        vector<int> stack;
+        stack.push_back(nums[0]);
+        
+        for(int i = 1; i < length; i++) {
+            if(nums[i] > stack.back()) {
+                stack.push_back(nums[i]);
+            } else {
+                int target = binary_search(stack, nums[i]);
+                stack[target] = nums[i];
             }
         }        
         return stack.size();        
