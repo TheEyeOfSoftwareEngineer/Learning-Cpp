@@ -40,6 +40,8 @@ pos 的值为 -1 或者链表中的一个有效索引
 
 ### C++
 ```c++
+// 这题主要是要注意头指针的慢指针之间的位置关系
+
 /**
  * Definition for singly-linked list.
  * struct ListNode {
